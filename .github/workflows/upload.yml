@@ -1,0 +1,15 @@
+name: Upload Coda Pack
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  upload-coda-pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: siriusnottin/upload-coda-pack@v1
+        with:
+          codaApiToken: ${{ secrets.CODA_API_TOKEN }}
