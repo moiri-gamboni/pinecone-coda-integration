@@ -1,0 +1,19 @@
+{
+  "name": "coda-pinecone",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.14.0",
+  "dependencies": {
+    "@codahq/packs-sdk": "^1.10.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}
