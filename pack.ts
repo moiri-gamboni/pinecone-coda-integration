@@ -1,4 +1,5 @@
 import * as coda from "@codahq/packs-sdk"
+import { EmbedVector } from "./pack/EmbedVector"
 import { QuerySimilar } from "./pack/QuerySimilar"
 
 export const pack = coda.newPack()
@@ -11,4 +12,5 @@ pack.setUserAuthentication({
   instructionsUrl: "https://docs.pinecone.io/docs/quickstart",
 })
 
+EmbedVector(pack)
 QuerySimilar(pack)

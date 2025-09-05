@@ -4,20 +4,36 @@ export class Pinecone {
 	// API Key auto-included by the fetcher
 	constructor(private readonly fetcher: coda.Fetcher) {}
 
+	async embedVector(index: string, vector: number[], id: string): Promise<number> {
+		const requestBody: PineconeUpsertVectorsRequest = {
+			vectors: [ {
+				id: id,
+				values: vector,
+			} ]
+		}
+
+		const response = await this.fetcher.fetch<PineconeUpsertVectorsResponse>({
+			method: "POST",
+			url: await this.url(index, "vectors/upsert"),
+			headers: this.headers(),
+			body: JSON.stringify(requestBody),
+		})
+
+		return response.body?.upsertedCount ?? 0
+	}
+
 	async vectorSearch(index: string, vector: number[], topK: number): Promise<PineconeVectorQueryResponse["matches"]> {
 		const requestBody: PineconeVectorQueryRequest = {
 			vector,
 			topK,
 			includeValues: false,
-			includeMetadata: true,
+			includeMetadata: false,
 		}
 
 		const response = await this.fetcher.fetch<PineconeVectorQueryResponse>({
 			method: "POST",
 			url: await this.url(index, "query"),
-			headers: {
-				"Content-Type": "application/json",
-			},
+			headers: this.headers(),
 			body: JSON.stringify(requestBody),
 		})
 
@@ -28,9 +44,7 @@ export class Pinecone {
 		const response = await this.fetcher.fetch<PineconeIndexResponse>({
 			method: "GET",
 			url: `https://api.pinecone.io/indexes/${index}`,
-			headers: {
-				"Content-Type": "application/json",
-			},
+			headers: this.headers(),
 		})
 
 		if (response.body == null) {
@@ -38,6 +52,12 @@ export class Pinecone {
 		}
 
 		return `https://${response.body.host}/${path}`
+	}
+
+	private headers(): Record<string, string> {
+		return {
+			"Content-Type": "application/json",
+		}
 	}
 }
 
@@ -53,6 +73,19 @@ type PineconeIndexResponse = {
 		state: string
 	},
 	host: string,
+}
+
+/**
+ * https://docs.pinecone.io/reference/api/2025-04/data-plane/upsert
+ */
+type PineconeUpsertVectorsRequest = {
+	vectors: {
+		id: string,
+		values: number[],
+	}[],
+}
+type PineconeUpsertVectorsResponse = {
+	upsertedCount: number,
 }
 
 /**

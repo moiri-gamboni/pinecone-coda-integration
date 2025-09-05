@@ -6,7 +6,6 @@ const QuerySimilarResultsSchema = coda.makeObjectSchema({
 	properties: {
 		id: { type: coda.ValueType.String },
 		score: { type: coda.ValueType.Number },
-		// metadata: { type: coda.ValueType.Object },
 	},
 })
 

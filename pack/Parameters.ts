@@ -17,4 +17,9 @@ export const Parameters = {
 		description: "Number of results to return",
 		optional: true,
 	}),
+	id: coda.makeParameter({
+		type: coda.ParameterType.String,
+		name: "id",
+		description: "ID of the vector in the index",
+	}),
 } as const
