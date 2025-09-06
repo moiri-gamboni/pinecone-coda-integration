@@ -18,9 +18,9 @@ export const Parameters = {
 		optional: true,
 	}),
 	id: coda.makeParameter({
-		type: coda.ParameterType.String,
+		type: coda.ParameterType.Number,
 		name: "id",
-		description: "ID of the person/vector",
+		description: "Numeric ID of the person/vector",
 	}),
 	subscribed: coda.makeParameter({
 		type: coda.ParameterType.Boolean,
