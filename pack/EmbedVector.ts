@@ -10,12 +10,23 @@ export function EmbedVector(pack: coda.PackDefinitionBuilder) {
 			Parameters.index,
 			Parameters.vector,
 			Parameters.id,
+			Parameters.subscribed,
+			Parameters.pastPairings,
 		],
 		resultType: coda.ValueType.Boolean,
-		execute: async ([index, vector, id], context) => {
+		execute: async ([index, vector, id, subscribed, pastPairings], context) => {
 			const pinecone = new Pinecone(context.fetcher)
 
-			const response = await pinecone.embedVector(index, vector, id)
+			const stringId = String(id)
+			const metadata: Record<string, unknown> = {}
+			if (typeof subscribed === "boolean") {
+				metadata.subscribed = subscribed
+			}
+			if (Array.isArray(pastPairings)) {
+				metadata.pastPairings = pastPairings.map(v => String(v))
+			}
+
+			const response = await pinecone.embedVector(index, vector, stringId, metadata)
 			return response > 0
 		},
 	})

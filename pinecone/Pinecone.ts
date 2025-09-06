@@ -4,11 +4,12 @@ export class Pinecone {
 	// API Key auto-included by the fetcher
 	constructor(private readonly fetcher: coda.Fetcher) {}
 
-	async embedVector(index: string, vector: number[], id: string): Promise<number> {
+	async embedVector(index: string, vector: number[], id: string, metadata?: Record<string, unknown>): Promise<number> {
 		const requestBody: PineconeUpsertVectorsRequest = {
 			vectors: [ {
 				id: id,
 				values: vector,
+				...(metadata != null ? { metadata } : {}),
 			} ]
 		}
 
@@ -82,6 +83,7 @@ type PineconeUpsertVectorsRequest = {
 	vectors: {
 		id: string,
 		values: number[],
+		metadata?: Record<string, unknown>,
 	}[],
 }
 type PineconeUpsertVectorsResponse = {

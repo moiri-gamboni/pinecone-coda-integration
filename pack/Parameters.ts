@@ -20,6 +20,18 @@ export const Parameters = {
 	id: coda.makeParameter({
 		type: coda.ParameterType.String,
 		name: "id",
-		description: "ID of the vector in the index",
+		description: "ID of the person/vector",
+	}),
+	subscribed: coda.makeParameter({
+		type: coda.ParameterType.Boolean,
+		name: "subscribed",
+		description: "Whether the person is subscribed",
+		optional: true,
+	}),
+	pastPairings: coda.makeParameter({
+		type: coda.ParameterType.NumberArray,
+		name: "pastPairings",
+		description: "Other person/vector IDs that have already been paired with this person/vector",
+		optional: true,
 	}),
 } as const
