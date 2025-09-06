@@ -6,6 +6,7 @@ export function EmbedVector(pack: coda.PackDefinitionBuilder) {
 	pack.addFormula({
 		name: "EmbedVector",
 		description: "Add a vector to a pinecone index.",
+		isAction: true,
 		parameters: [
 			Parameters.index,
 			Parameters.vector,
